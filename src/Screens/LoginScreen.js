@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { authService } from "../fbase";
+import { authService, firebaseInstance } from "../fbase";
 
 const LoginScreen = () => {
 	const [email, setEmail] = useState("");
@@ -27,6 +27,23 @@ const LoginScreen = () => {
 		}
 	};
 
+	const onSocialClick = async (e) => {
+		const {
+			target: { name },
+		} = e;
+
+		//공급자 설정
+		let provider;
+		if (name === "google") {
+			provider = new firebaseInstance.auth.GoogleAuthProvider();
+		} else if (name === "github") {
+			provider = new firebaseInstance.auth.GithubAuthProvider();
+		}
+		//팝업을 이용해서 공급자 계정으로 가입.
+		const data = await authService.signInWithPopup(provider);
+		console.log(data);
+	};
+
 	const newAccountToggle = () => setNewAccount(!newAccount);
 	return (
 		<div>
@@ -50,6 +67,14 @@ const LoginScreen = () => {
 			<span onClick={newAccountToggle}>
 				{newAccount ? "로그인" : "회원가입"}
 			</span>
+			<div>
+				<button onClick={onSocialClick} name="google">
+					Continue With Google
+				</button>
+				<button onClick={onSocialClick} name="github">
+					Continue With Github
+				</button>
+			</div>
 		</div>
 	);
 };
