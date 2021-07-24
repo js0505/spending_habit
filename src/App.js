@@ -15,11 +15,13 @@ const App = () => {
 		// else 의 state 변경으로 재 랜더링 되어 처리됨.
 		authService.onAuthStateChanged((user) => {
 			if (user) {
+				console.log(user);
 				//로그인한 유저정보 저장.
 				//필요한 정보만 가져올 수 있도록 가공.
 				setUserObject({
 					displayName: user.displayName,
 					uid: user.uid,
+					email: user.email,
 					//그냥 updateProfile 함수를 실행하는 용도?
 					updateProfile: (args) => user.updateProfile(args),
 				});

@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HomeScreen = () => {
+const HomeScreen = ({ userObject }) => {
+	// console.log(userObject);
 	return (
 		<div>
 			<h1>Home</h1>
@@ -14,7 +15,9 @@ const HomeScreen = () => {
 			<div>
 				불필요한 지출 : <span>000,000</span>
 			</div>
-			<button>통계</button>
+			<Link to="/stat">
+				<button>통계</button>
+			</Link>
 			<Link to="/input">
 				<button>입력</button>
 			</Link>

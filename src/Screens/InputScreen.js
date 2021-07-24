@@ -1,15 +1,33 @@
 import React, { useState } from "react";
+import { dbService } from "../fbase";
 
-const InputScreen = () => {
+const InputScreen = ({ userObject }) => {
 	const [money, setMoney] = useState("");
 	const [nessesary, setNessesary] = useState(Boolean);
 	const [memo, setMemo] = useState("");
+	const [error, setError] = useState("");
 
-	const onSubmit = (e) => {
+	const onSubmit = async (e) => {
 		e.preventDefault();
+
+		const today = new Date().toISOString().substring(0, 10);
+		const dataObject = {
+			value: money,
+			nessesary,
+			memo,
+			date: today,
+		};
+
+		const res = await dbService
+			.collection(`${userObject.email}`)
+			.add(dataObject);
+		setMoney("");
+		setMemo("");
+		console.log(res);
 	};
 	return (
 		<div>
+			{error && error}
 			<form onSubmit={onSubmit}>
 				<input
 					type="text"
