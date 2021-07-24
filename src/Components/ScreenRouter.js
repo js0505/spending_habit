@@ -1,6 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HomeScreen, InputScreen, LoginScreen, StatScreen } from "../Screens";
+import {
+	HomeScreen,
+	InputScreen,
+	LoginScreen,
+	StatScreen,
+	UpdateScreen,
+} from "../Screens";
 const ScreenRouter = ({ userObject, isLoggedIn }) => {
 	return (
 		<Router>
@@ -15,6 +21,9 @@ const ScreenRouter = ({ userObject, isLoggedIn }) => {
 						</Route>
 						<Route path="/stat" exact>
 							<StatScreen userObject={userObject} />
+						</Route>
+						<Route path="/update/:id" exact>
+							<UpdateScreen userObject={userObject} />
 						</Route>
 					</>
 				) : (

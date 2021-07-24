@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../fbase";
-import { Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const StatScreen = ({ userObject }) => {
 	const today = new Date().toISOString().substring(0, 10);
@@ -25,7 +25,7 @@ const StatScreen = ({ userObject }) => {
 	}, [date]);
 	return (
 		<>
-			<Link to='/'>뒤로가기</Link>
+			<Link to="/">뒤로가기</Link>
 			<div>
 				<input
 					type="date"
@@ -37,10 +37,10 @@ const StatScreen = ({ userObject }) => {
 				<h1>True</h1>
 				{list.map((item) =>
 					item.nessesary === true ? (
-						<>
+						<Link to={`/update/${item.id}`}>
 							<div>{item.value}</div>
 							<div>{item.memo}</div>
-						</>
+						</Link>
 					) : (
 						""
 					)
@@ -50,10 +50,10 @@ const StatScreen = ({ userObject }) => {
 				<h1>False</h1>
 				{list.map((item) =>
 					item.nessesary === false ? (
-						<>
+						<Link to={`/update/${item.id}`}>
 							<div>{item.value}</div>
 							<div>{item.memo}</div>
-						</>
+						</Link>
 					) : (
 						""
 					)

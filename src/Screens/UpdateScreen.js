@@ -1,40 +1,41 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { dbService } from "../fbase";
 
-const InputScreen = ({ userObject }) => {
-	let today = new Date().toISOString().substring(0, 10);
-	let month = new Date().toISOString().substring(0, 7);
-	const [date, setDate] = useState(today);
-	const [money, setMoney] = useState("");
+const UpdateScreen = ({ userObject }) => {
+	const { id } = useParams();
+	const history = useHistory();
+	const [date, setDate] = useState("");
+	const [money, setMoney] = useState(0);
 	const [nessesary, setNessesary] = useState(Boolean);
 	const [memo, setMemo] = useState("");
-	const [error, setError] = useState("");
+	const month = date.substring(0, 7);
+	useEffect(() => {
+		dbService
+			.doc(`${userObject.email}/${id}`)
+			.get()
+			.then((res) => {
+				setMoney(res.data().value);
+				setNessesary(res.data().nessesary);
+				setMemo(res.data().memo);
+				setDate(res.data().date);
+			});
+	}, []);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-
-		const dataObject = {
+		await dbService.doc(`${userObject.email}/${id}`).update({
 			value: money,
 			nessesary,
 			memo,
 			date,
 			month,
-		};
-
-		const res = await dbService
-			.collection(`${userObject.email}`)
-			.add(dataObject)
-			.then(console.log("success"));
-		setMoney("");
-		setMemo("");
-		console.log(res);
+		});
+		history.push("/stat");
 	};
 
 	return (
 		<div>
-			<Link to="/">뒤로가기</Link>
-			{error && error}
 			<form onSubmit={onSubmit}>
 				<input
 					type="text"
@@ -47,7 +48,8 @@ const InputScreen = ({ userObject }) => {
 					name="nessesaryCheck"
 					id="nessesary"
 					value={nessesary}
-					onClick={(e) => setNessesary(true)}
+					checked={nessesary ? true : false}
+					onChange={(e) => setNessesary(true)}
 				/>
 				<label for="nessesary">필요한</label>
 				<input
@@ -55,7 +57,8 @@ const InputScreen = ({ userObject }) => {
 					name="nessesaryCheck"
 					id="unnessesary"
 					value={nessesary}
-					onClick={(e) => setNessesary(false)}
+					checked={nessesary ? false : true}
+					onChange={(e) => setNessesary(false)}
 				/>
 				<label for="unnessesary">불필요한</label>
 				<input
@@ -67,7 +70,7 @@ const InputScreen = ({ userObject }) => {
 				<input
 					type="date"
 					onChange={(e) => setDate(e.target.value)}
-					value={today}
+					defaultValue={date}
 				/>
 				<input type="submit" value="submit" />
 				<Link to="/">
@@ -78,4 +81,4 @@ const InputScreen = ({ userObject }) => {
 	);
 };
 
-export default InputScreen;
+export default UpdateScreen;
