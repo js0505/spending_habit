@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../fbase";
+import { Link} from 'react-router-dom'
 
 const StatScreen = ({ userObject }) => {
 	const today = new Date().toISOString().substring(0, 10);
@@ -7,38 +8,24 @@ const StatScreen = ({ userObject }) => {
 	const [list, setList] = useState([]);
 
 	useEffect(() => {
-		dbService
-			.collection(`${userObject.email}`)
-			.where("date", "==", date)
-			.where("nessesary", "==", true)
-			.get()
-			.then((res) => {
-				const data = res.docs.map((item) => ({
-					id: item.id,
-					...item.data(),
-				}));
-				setList(data);
-			});
+		const getList = async () => {
+			await dbService
+				.collection(`${userObject.email}`)
+				.where("date", "==", date)
+				.get()
+				.then((res) => {
+					const data = res.docs.map((item) => ({
+						id: item.id,
+						...item.data(),
+					}));
+					setList(data);
+				});
+		};
+		getList();
 	}, [date]);
-	const onButtonClick = async (e) => {
-		const nessesary = e.target.id === "true" ? true : false;
-
-		await dbService
-			.collection(`${userObject.email}`)
-			.where("date", "==", date)
-			.where("nessesary", "==", nessesary)
-			.get()
-			.then((res) => {
-				const data = res.docs.map((item) => ({
-					id: item.id,
-					...item.data(),
-				}));
-				setList(data);
-			});
-	};
-
 	return (
 		<>
+			<Link to='/'>뒤로가기</Link>
 			<div>
 				<input
 					type="date"
@@ -46,19 +33,32 @@ const StatScreen = ({ userObject }) => {
 					defaultValue={today}
 				/>
 			</div>
-			<button onClick={onButtonClick} id="true">
-				필요한 소비 내역
-			</button>
-			<button onClick={onButtonClick} id="false">
-				불필요한 소비 내역
-			</button>
-			{list &&
-				list.map((item) => (
-					<div>
-						<span>{item.value}</span>
-						<span>{item.memo}</span>
-					</div>
-				))}
+			<div>
+				<h1>True</h1>
+				{list.map((item) =>
+					item.nessesary === true ? (
+						<>
+							<div>{item.value}</div>
+							<div>{item.memo}</div>
+						</>
+					) : (
+						""
+					)
+				)}
+			</div>
+			<div>
+				<h1>False</h1>
+				{list.map((item) =>
+					item.nessesary === false ? (
+						<>
+							<div>{item.value}</div>
+							<div>{item.memo}</div>
+						</>
+					) : (
+						""
+					)
+				)}
+			</div>
 		</>
 	);
 };
