@@ -14,7 +14,7 @@ const ScreenRouter = ({ userObject, isLoggedIn }) => {
 							<InputScreen userObject={userObject} />
 						</Route>
 						<Route path="/stat" exact>
-							<StatScreen />
+							<StatScreen userObject={userObject} />
 						</Route>
 					</>
 				) : (
