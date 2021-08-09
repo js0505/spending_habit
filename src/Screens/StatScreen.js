@@ -22,7 +22,7 @@ const StatScreen = ({ userObject }) => {
 				});
 		};
 		getList();
-	}, [date]);
+	}, [date, userObject.email]);
 	return (
 		<>
 			<Link to="/">뒤로가기</Link>

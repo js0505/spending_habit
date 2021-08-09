@@ -25,7 +25,8 @@ const InputScreen = ({ userObject }) => {
 		const res = await dbService
 			.collection(`${userObject.email}`)
 			.add(dataObject)
-			.then(console.log("success"));
+			.then(console.log("success"))
+			.catch((e) => setError(e));
 		setMoney("");
 		setMemo("");
 		console.log(res);
@@ -49,7 +50,7 @@ const InputScreen = ({ userObject }) => {
 					value={nessesary}
 					onClick={(e) => setNessesary(true)}
 				/>
-				<label for="nessesary">필요한</label>
+				<label htmlFor="nessesary">필요한</label>
 				<input
 					type="radio"
 					name="nessesaryCheck"
@@ -57,7 +58,7 @@ const InputScreen = ({ userObject }) => {
 					value={nessesary}
 					onClick={(e) => setNessesary(false)}
 				/>
-				<label for="unnessesary">불필요한</label>
+				<label htmlFor="unnessesary">불필요한</label>
 				<input
 					type="text"
 					value={memo}

@@ -20,7 +20,7 @@ const UpdateScreen = ({ userObject }) => {
 				setMemo(res.data().memo);
 				setDate(res.data().date);
 			});
-	}, []);
+	}, [id, userObject.email]);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();

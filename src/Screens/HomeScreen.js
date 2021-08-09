@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { dbService } from "../fbase";
+import { authService, dbService } from "../fbase";
 
 const HomeScreen = ({ userObject }) => {
 	const [trueValue, setTrueValue] = useState(0);
 	const [falseValue, setFalseValue] = useState(0);
-	const today = new Date().toISOString().substring(0, 10);
+	// const today = new Date().toISOString().substring(0, 10);
 	const month = new Date().toISOString().substring(0, 7);
 
 	useEffect(() => {
@@ -30,7 +30,16 @@ const HomeScreen = ({ userObject }) => {
 					setFalseValue((prev) => parseInt(item.data().value) + prev)
 				)
 			);
-	}, []);
+	}, [month, userObject.email]);
+
+	const onSignoutHandler = (e) => {
+		e.preventDefault();
+		const logoutAlert = window.confirm("Log out?");
+		if (logoutAlert) {
+			authService.signOut();
+			return;
+		}
+	};
 
 	return (
 		<div>
@@ -53,6 +62,7 @@ const HomeScreen = ({ userObject }) => {
 			<Link to="/input">
 				<button>입력</button>
 			</Link>
+			<button onClick={onSignoutHandler}>Log Out</button>
 		</div>
 	);
 };
