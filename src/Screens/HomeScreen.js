@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { authService, dbService } from "../fbase";
+import { dbService } from "../fbase";
 
 const HomeScreen = ({ userObject }) => {
 	const [trueValue, setTrueValue] = useState(0);
@@ -32,15 +31,6 @@ const HomeScreen = ({ userObject }) => {
 			);
 	}, [month, userObject.email]);
 
-	const onSignoutHandler = (e) => {
-		e.preventDefault();
-		const logoutAlert = window.confirm("Log out?");
-		if (logoutAlert) {
-			authService.signOut();
-			return;
-		}
-	};
-
 	return (
 		<div>
 			<h1>Home</h1>
@@ -56,13 +46,6 @@ const HomeScreen = ({ userObject }) => {
 			<div>
 				불필요한 지출 : <span>{falseValue}</span>
 			</div>
-			<Link to="/stat">
-				<button>통계</button>
-			</Link>
-			<Link to="/input">
-				<button>입력</button>
-			</Link>
-			<button onClick={onSignoutHandler}>Log Out</button>
 		</div>
 	);
 };
