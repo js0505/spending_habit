@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Modal from "../Components/Modal";
 import { dbService } from "../fbase";
 
 const HomeScreen = ({ userObject }) => {
 	const [trueValue, setTrueValue] = useState(0);
 	const [falseValue, setFalseValue] = useState(0);
+	const [modalVisible, setModalVisible] = useState(false);
 	// const today = new Date().toISOString().substring(0, 10);
 	const month = new Date().toISOString().substring(0, 7);
 
@@ -31,6 +33,13 @@ const HomeScreen = ({ userObject }) => {
 			);
 	}, [month, userObject.email]);
 
+	const onModalOpen = () => {
+		setModalVisible(true);
+	};
+	const onModalClose = () => {
+		setModalVisible(false);
+	};
+
 	return (
 		<div>
 			<h1>Home</h1>
@@ -46,6 +55,8 @@ const HomeScreen = ({ userObject }) => {
 			<div>
 				불필요한 지출 : <span>{falseValue}</span>
 			</div>
+			<Modal open={modalVisible} close={onModalClose} />
+			<button onClick={onModalOpen}>Modal</button>
 		</div>
 	);
 };
