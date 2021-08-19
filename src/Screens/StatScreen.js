@@ -35,27 +35,27 @@ const StatScreen = ({ userObject }) => {
 			</div>
 			<div>
 				<h1>True</h1>
-				{list.map((item) =>
+				{list.map((item, index) =>
 					item.nessesary === true ? (
 						<Link to={`/update/${item.id}`}>
-							<div>{item.value}</div>
-							<div>{item.memo}</div>
+							<div key={item.id}>{item.value}</div>
+							<div key={index}>{item.memo}</div>
 						</Link>
 					) : (
-						""
+						<></>
 					)
 				)}
 			</div>
 			<div>
 				<h1>False</h1>
-				{list.map((item) =>
+				{list.map((item, index) =>
 					item.nessesary === false ? (
 						<Link to={`/update/${item.id}`}>
-							<div>{item.value}</div>
-							<div>{item.memo}</div>
+							<div key={item.id}>{item.value}</div>
+							<div key={index}>{item.memo}</div>
 						</Link>
 					) : (
-						""
+						<></>
 					)
 				)}
 			</div>

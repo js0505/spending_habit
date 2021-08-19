@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../Components/Modal";
+import Navbar from "../Components/Navbar";
 import { dbService } from "../fbase";
+import { ListGroup, Row, Col } from "react-bootstrap";
 
 const HomeScreen = ({ userObject }) => {
 	const [trueValue, setTrueValue] = useState(0);
 	const [falseValue, setFalseValue] = useState(0);
-	const [modalVisible, setModalVisible] = useState(false);
 	// const today = new Date().toISOString().substring(0, 10);
 	const month = new Date().toISOString().substring(0, 7);
+	console.log(trueValue);
 
 	useEffect(() => {
 		dbService
@@ -33,30 +34,39 @@ const HomeScreen = ({ userObject }) => {
 			);
 	}, [month, userObject.email]);
 
-	const onModalOpen = () => {
-		setModalVisible(true);
-	};
-	const onModalClose = () => {
-		setModalVisible(false);
-	};
-
 	return (
 		<div>
-			<h1>Home</h1>
-			<h2>
+			<h1 className="my-3">Spending habit</h1>
+			<h3 className="my-3">
 				{month.substring(0, 4)}년 {month.substring(5, 8)}월
-			</h2>
-			<div>
-				이번달 지출 : <span>{trueValue + falseValue}</span>
-			</div>
-			<div>
-				필요한 지출 : <span>{trueValue}</span>
-			</div>
-			<div>
-				불필요한 지출 : <span>{falseValue}</span>
-			</div>
-			<Modal open={modalVisible} close={onModalClose} />
-			<button onClick={onModalOpen}>Modal</button>
+			</h3>
+			<ListGroup variant="flush" className="my-3">
+				<ListGroup.Item>
+					<Row>
+						<Col>이번달 지출 : </Col>
+						<Col>
+							<span>{trueValue + falseValue} 원</span>
+						</Col>
+					</Row>
+				</ListGroup.Item>
+				<ListGroup.Item>
+					<Row>
+						<Col>필요한 지출 : </Col>
+						<Col>
+							<span>{trueValue} 원</span>
+						</Col>
+					</Row>
+				</ListGroup.Item>
+				<ListGroup.Item>
+					<Row>
+						<Col>불필요한 지출 : </Col>
+						<Col>
+							<span>{falseValue} 원</span>
+						</Col>
+					</Row>
+				</ListGroup.Item>
+			</ListGroup>
+			<Navbar />
 		</div>
 	);
 };

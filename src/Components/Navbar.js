@@ -1,6 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { authService } from "../fbase";
+import { Row, Col, Button } from "react-bootstrap";
+import styled from "styled-components";
+
+const SButton = styled(Button)`
+	font-size: 1.5rem;
+`;
 
 const Navbar = () => {
 	const onSignoutHandler = (e) => {
@@ -11,19 +18,25 @@ const Navbar = () => {
 			return;
 		}
 	};
+
 	return (
-		<div>
-			<Link to="/stat">
-				<button>통계</button>
-			</Link>
-			<Link to="/">
-				<button>Home</button>
-			</Link>
-			<Link to="/input">
-				<button>입력</button>
-			</Link>
-			<button onClick={onSignoutHandler}>Log Out</button>
-		</div>
+		<Row>
+			<Col>
+				<SButton variant="outline-success">
+					<LinkContainer to="/stat">
+						<i className="far fa-chart-bar" />
+					</LinkContainer>
+				</SButton>
+			</Col>
+			<Col>
+				{/* <button onClick={onSignoutHandler}>Log Out</button> */}
+				<SButton variant="outline-success">
+					<LinkContainer to="/input">
+						<i className="far fa-plus-square" />
+					</LinkContainer>
+				</SButton>
+			</Col>
+		</Row>
 	);
 };
 

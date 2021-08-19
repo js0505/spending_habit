@@ -7,7 +7,8 @@ import {
 	StatScreen,
 	UpdateScreen,
 } from "../Screens";
-import Navbar from "./Navbar";
+
+
 const ScreenRouter = ({ userObject, isLoggedIn }) => {
 	return (
 		<Router>
@@ -26,7 +27,6 @@ const ScreenRouter = ({ userObject, isLoggedIn }) => {
 						<Route path="/update/:id" exact>
 							<UpdateScreen userObject={userObject} />
 						</Route>
-						<Navbar />
 					</>
 				) : (
 					<>

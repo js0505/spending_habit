@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ScreenRouter from "./Components/ScreenRouter";
 import { authService } from "./fbase";
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Col, Row } from "react-bootstrap";
 const App = () => {
 	//like Loading...
 	const [init, setInit] = useState(false);
@@ -32,18 +33,23 @@ const App = () => {
 			setInit(true);
 		});
 	}, []);
-
 	return (
-		<div>
-			{init ? (
-				<ScreenRouter
-					isLoggedIn={Boolean(userObject)}
-					userObject={userObject}
-				/>
-			) : (
-				"Initializing.."
-			)}
-		</div>
+		<Container>
+			<Row className="justify-content-md-center">
+				<Col sm={12} md={3} className="text-center">
+					<main>
+						{init ? (
+							<ScreenRouter
+								isLoggedIn={Boolean(userObject)}
+								userObject={userObject}
+							/>
+						) : (
+							"Initializing.."
+						)}
+					</main>
+				</Col>
+			</Row>
+		</Container>
 	);
 };
 

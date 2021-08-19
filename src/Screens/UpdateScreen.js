@@ -51,7 +51,7 @@ const UpdateScreen = ({ userObject }) => {
 					checked={nessesary ? true : false}
 					onChange={(e) => setNessesary(true)}
 				/>
-				<label for="nessesary">필요한</label>
+				<label htmlFor="nessesary">필요한</label>
 				<input
 					type="radio"
 					name="nessesaryCheck"
@@ -60,7 +60,7 @@ const UpdateScreen = ({ userObject }) => {
 					checked={nessesary ? false : true}
 					onChange={(e) => setNessesary(false)}
 				/>
-				<label for="unnessesary">불필요한</label>
+				<label htmlFor="unnessesary">불필요한</label>
 				<input
 					type="text"
 					value={memo}

@@ -34,7 +34,8 @@ const Modal = ({ open, close }) => {
 };
 
 Modal.defaultProps = {
-	visible: false,
+	open: false,
+	close: false,
 };
 
 export default Modal;
